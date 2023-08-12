@@ -11,6 +11,8 @@
 1.install python. (preferably  v3.11 ) <br>
 2.run pip install -r requirements.txt <br>3.python server.py
 
+## NOTE
+there is self-signed certificate configurations you should create your own to run localy with TLS/SSL
 
 
 
