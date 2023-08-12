@@ -12,6 +12,7 @@
     <canvas id="cpuChart"></canvas>
 
     <script>
+        console.log({{port}})
         var socket = io.connect('http://localhost:' + {{port}});
         socket.emit('join_room', { room: "{{token}}" });
 
