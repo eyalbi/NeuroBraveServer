@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room
 import logging
-
+import os
 #creating a flask app and configure logging
 app = Flask(__name__)
 logging.basicConfig(filename='server.log', level=logging.DEBUG)
@@ -12,7 +12,8 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 @app.route('/')
 def index():
     token = request.args.get('token')
-    return render_template("index.html", token=token)
+    port = int(os.environ.get("PORT", 17995))
+    return render_template("index.html", token=token,port=port)
 
 #logging connection to socket
 @socketio.on('connect')
