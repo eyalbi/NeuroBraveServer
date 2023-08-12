@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.0.1/dist/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="mouseChart"></canvas>
+    <canvas id="cpuChart"></canvas>
+
+    <script>
+        var socket = io.connect('https://localhost:8765');
+        socket.emit('join_room', { room: "{{token}}" });
+
+        // Set up Chart.js for mouse data
+        var mouseCtx = document.getElementById('mouseChart').getContext('2d');
+        var mouseChart = new Chart(mouseCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Mouse Position',
+                    data: [],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            }
+        });
+
+        // Set up Chart.js for CPU data
+        var cpuCtx = document.getElementById('cpuChart').getContext('2d');
+        var cpuChart = new Chart(cpuCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'CPU Load',
+                    data: [],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            }
+        });
+
+        socket.on('update_mouse', function(data) {
+            console.log("Received mouse data:", data);
+            // Assuming the data is of the format [[x,y]]
+            for (let point of data) {
+                mouseChart.data.labels.push(point[0]);  // X-coordinate
+                mouseChart.data.datasets[0].data.push(point[1]);  // Y-coordinate
+            }
+            mouseChart.update();
+        });
+
+        socket.on('update_cpu', function(data) {
+            // Assuming the data is an array [cpuLoad]
+            for (let load of data) {
+                cpuChart.data.labels.push(new Date().toLocaleTimeString());  // Time
+                cpuChart.data.datasets[0].data.push(load);  // CPU Load
+            }
+            cpuChart.update();
+        });
+    </script>
+</body>
+</html>
