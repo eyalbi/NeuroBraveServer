@@ -1,1 +1,1 @@
-web: gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker eventlet -w 1 -b 0.0.0.0:$PORT server:app
+web: gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -k eventlet -w 1 -b 0.0.0.0:$PORT server:app
