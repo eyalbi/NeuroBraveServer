@@ -41,11 +41,11 @@ def handle_data(data):
              # Here we emit mouse data to rooms for JS client visualization
             emit('update_mouse', data['data'], room=room)
         elif data['type'] == 'cpu':
-            print(f"CPU Data: {data['data']}")
             # Here we emit CPU data to rooms for JS client visualization
             emit('update_cpu', data['data'], room=room)
     except Exception as e:
         app.logger.exception(e)
 
 if __name__ == '__main__':
+    #for local run
     socketio.run(app, host='0.0.0.0', port=8765, keyfile='server.key', certfile='server.cert')
