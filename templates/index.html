@@ -13,7 +13,7 @@
 
     <script>
         console.log({{port}})
-        var socket = io.connect('ws://neuro-brave-server-b222fd4c7de9.herokuapp.com');
+        var socket = io.connect('wss://neuro-brave-server-b222fd4c7de9.herokuapp.com');
         socket.emit('join_room', { room: "{{token}}" });
 
         // Set up Chart.js for mouse data
